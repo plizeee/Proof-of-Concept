@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Search</title>
+    <style>
+        /* Add your CSS styles here */
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        let movieData = [];
+
+        // Fetch movie data on page load
+        $(document).ready(function() {
+            $.getJSON("http://localhost:8080/getMovies", function(data) {
+                movieData = data;
+            });
+        });
+
+        function searchMovies() {
+            let input = $("#movieInput").val();
+            let suggestions = $("#suggestions");
+            suggestions.empty();
+
+            for(let i=0; i < movieData.length; i++) {
+                let movie = movieData[i];
+                if(movie.title.toLowerCase().includes(input.toLowerCase())) {
+                    let option = $("<option>").val(movie.title).text(movie.title); // Update the value to movie.title
+                    suggestions.append(option);
+                }
+            }
+        }
+
+
+        function displayMovie() {
+            let input = $("#movieInput").val().toLowerCase();
+            let selectedMovie = movieData.find(movie => movie.title.toLowerCase() === input);
+
+            if (selectedMovie) {
+                $("#title").text(selectedMovie.title);
+                $("#director").text("Directed by " + selectedMovie.director);
+                $("#year").text("Released in " + selectedMovie.year);
+                $("#rating").text("Rating: " + selectedMovie.rating);
+            }
+        }
+
+
+
+    </script>
+</head>
+<body>
+    <input id="movieInput" type="text" oninput="searchMovies()" list="suggestions">
+    <datalist id="suggestions"></datalist>
+    <button onclick="displayMovie()">Select</button>
+    <div id="movieInfo">
+        <h2 id="title"></h2>
+        <p id="director"></p>
+        <p id="year"></p>
+        <p id="rating"></p>
+    </div>
+</body>
+</html>
