@@ -3,6 +3,7 @@
 This is a proof-of-concept to demonstrate how to create an API for a MongoDB database using Node.js/Express as well as how to create a simple web application to interact with the API using its endpoint.
 
 ## Setup
+Setup instructions are for VS Code.
 
 1. Clone the repository
 2. Run `npm install` to install the dependencies
